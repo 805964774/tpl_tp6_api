@@ -16,8 +16,7 @@ class {%className%} extends BaseController
      * @return Response
      * @throws DbException
      */
-    public function list(): Response
-    {
+    public function list(): Response {
         $service = new \app\service\{%className%}();
         $list = $service->list();
         return $this->outputSuccess($list);
@@ -29,8 +28,7 @@ class {%className%} extends BaseController
      * @return Response
      * @throws AppException
      */
-    public function create(Request $request): Response
-    {
+    public function create(Request $request): Response {
         $inputData = $request->param();
         $service = new \app\service\{%className%}();
         $service->add($inputData);
@@ -42,8 +40,7 @@ class {%className%} extends BaseController
      * @param int $id
      * @return Response
      */
-    public function info(int $id): Response
-    {
+    public function info(int $id): Response {
         $service = new \app\service\{%className%}();
         $data = $service->read($id);
         return $this->outputSuccess($data);
@@ -56,8 +53,7 @@ class {%className%} extends BaseController
      * @return Response
      * @throws AppException
      */
-    public function update(Request $request, int $id): Response
-    {
+    public function update(Request $request, int $id): Response {
         $inputData = $request->param();
         $service = new \app\service\{%className%}();
         $service->modify($id, $inputData);
@@ -69,8 +65,7 @@ class {%className%} extends BaseController
      * @param int $id
      * @return Response
      */
-    public function delete(int $id): Response
-    {
+    public function delete(int $id): Response {
         $service = new \app\service\{%className%}();
         $service->del($id);
         return $this->outputSuccess();

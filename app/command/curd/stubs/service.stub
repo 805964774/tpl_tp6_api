@@ -14,8 +14,7 @@ class {%className%}
      * @return Paginator
      * @throws DbException
      */
-    public function list()
-    {
+    public function list() {
         $model = new \app\model\{%className%}();
         return $model->getList();
     }
@@ -25,8 +24,7 @@ class {%className%}
      * @param $inputData
      * @throws \ChengYi\exception\ModelException
      */
-    public function add($inputData)
-    {
+    public function add($inputData) {
         $model = new \app\model\{%className%}();
         validate(\app\validate\{%className%}::class)->scene(\app\validate\{%className%}::SCENE_ADD)->check($inputData);
         $model->addOneData($inputData);
@@ -37,8 +35,7 @@ class {%className%}
      * @param $id
      * @return array|\think\Model
      */
-    public function read($id)
-    {
+    public function read($id) {
         $model = new \app\model\{%className%}();
         return $model->read($id);
     }
@@ -48,8 +45,7 @@ class {%className%}
      * @param $id
      * @param $inputData
      */
-    public function modify($id, $inputData)
-    {
+    public function modify($id, $inputData) {
         $model = new \app\model\{%className%}();
         validate(\app\validate\{%className%}::class)->scene(\app\validate\{%className%}::SCENE_EDIT)->check($inputData);
         $model->modifyOneData(['id' => $id], $inputData);
@@ -59,8 +55,7 @@ class {%className%}
      * 软删除-删除数据
      * @param $id
      */
-    public function del($id)
-    {
+    public function del($id) {
         $model = new \app\model\{%className%}();
         $model->deleteOne($id);
     }
