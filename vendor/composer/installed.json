@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "chengyi/tp6",
-            "version": "1.0.0",
-            "version_normalized": "1.0.0.0",
+            "version": "v1.0.3",
+            "version_normalized": "1.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/805964774/tp6.git",
-                "reference": "9734d86b0feaae213a74c038435ecb80ab8f9dfc"
+                "reference": "87e9e105713a1d44e50240f1291a6a480b0fef9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/805964774/tp6/zipball/9734d86b0feaae213a74c038435ecb80ab8f9dfc",
-                "reference": "9734d86b0feaae213a74c038435ecb80ab8f9dfc",
+                "url": "https://api.github.com/repos/805964774/tp6/zipball/87e9e105713a1d44e50240f1291a6a480b0fef9a",
+                "reference": "87e9e105713a1d44e50240f1291a6a480b0fef9a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -26,7 +26,7 @@
                 "ext-json": "*",
                 "topthink/framework": "^6.0.0"
             },
-            "time": "2021-07-01T08:48:05+00:00",
+            "time": "2021-07-01T12:12:44+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -50,7 +50,7 @@
             "description": "基于tp6做一些微调",
             "support": {
                 "issues": "https://github.com/805964774/tp6/issues",
-                "source": "https://github.com/805964774/tp6/tree/1.0.0"
+                "source": "https://github.com/805964774/tp6/tree/v1.0.3"
             },
             "install-path": "../chengyi/tp6"
         },

@@ -12,9 +12,9 @@ class ComposerStaticInit15b2fad6fa96dafc80f014549923b4b6
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
-        '124307294c49480625bd70196271c186' => __DIR__ . '/..' . '/chengyi/tp6/src/helper.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '124307294c49480625bd70196271c186' => __DIR__ . '/..' . '/chengyi/tp6/src/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (

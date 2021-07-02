@@ -27,24 +27,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => '8afa864bf2315099c717c3d7251486bdd90ae3fc',
-    'name' => 'topthink/think',
+    'reference' => '90c899fd3ed72e2bac4be15007308d8af48e716d',
+    'name' => 'jinlulu/tp6_api',
   ),
   'versions' => 
   array (
     'chengyi/tp6' => 
     array (
-      'pretty_version' => '1.0.0',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'v1.0.3',
+      'version' => '1.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9734d86b0feaae213a74c038435ecb80ab8f9dfc',
+      'reference' => '87e9e105713a1d44e50240f1291a6a480b0fef9a',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -63,6 +63,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'd2113d9b2e0e349796e72d2a63cf9319100382d2',
+    ),
+    'jinlulu/tp6_api' => 
+    array (
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '90c899fd3ed72e2bac4be15007308d8af48e716d',
     ),
     'league/flysystem' => 
     array (
@@ -171,15 +180,6 @@ private static $installed = array (
       array (
       ),
       'reference' => '4789343672aef06d571d556da369c0e156609bce',
-    ),
-    'topthink/think' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '8afa864bf2315099c717c3d7251486bdd90ae3fc',
     ),
     'topthink/think-helper' => 
     array (
