@@ -6,19 +6,19 @@
     'aliases' => 
     array (
     ),
-    'reference' => '90c899fd3ed72e2bac4be15007308d8af48e716d',
+    'reference' => '68133151346f1cf732e88232af9e9cb1b4bf2bcd',
     'name' => 'jinlulu/tp6_api',
   ),
   'versions' => 
   array (
     'chengyi/tp6' => 
     array (
-      'pretty_version' => 'v1.0.3',
-      'version' => '1.0.3.0',
+      'pretty_version' => 'v1.0.5',
+      'version' => '1.0.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '87e9e105713a1d44e50240f1291a6a480b0fef9a',
+      'reference' => '1c1a1ff7db413e46313ab943d732bb47510583b3',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -45,7 +45,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '90c899fd3ed72e2bac4be15007308d8af48e716d',
+      'reference' => '68133151346f1cf732e88232af9e9cb1b4bf2bcd',
     ),
     'league/flysystem' => 
     array (
