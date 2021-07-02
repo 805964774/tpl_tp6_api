@@ -1,0 +1,27 @@
+<?php
+declare (strict_types = 1);
+
+namespace app\validate;
+
+use think\Validate;
+
+class {%className%} extends Validate
+{
+    const SCENE_ADD = 'add';
+    const SCENE_EDIT = 'edit';
+
+    protected $rule = [
+        // todo 设置规则
+    ];
+
+
+    protected $message = [
+        // todo 设置提示语
+    ];
+
+    // todo 设置场景需要验证的字段
+    protected $scene = [
+        self::SCENE_ADD => [],
+        self::SCENE_EDIT => [],
+    ];
+}

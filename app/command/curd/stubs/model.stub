@@ -1,0 +1,34 @@
+<?php
+declare (strict_types=1);
+
+namespace app\model;
+
+use ChengYi\abstracts\BaseModel;
+
+class {%className%} extends BaseModel
+{
+
+    /**
+     * 获取列表的查询的字段
+     * todo 设置相应的字段
+     */
+    protected $getListField = [];
+
+    /**
+     * 添加数据允许写入的字段
+     * todo 设置相应的字段
+     */
+    protected $addAllowField = [];
+
+    /**
+     * 获取详情需要的字段
+     * todo 设置相应的字段
+     */
+    protected $getDataField = [];
+
+    /**
+     * 编辑允许的字段
+     * todo 设置相应的字段
+     */
+    protected $editAllowField = [];
+}

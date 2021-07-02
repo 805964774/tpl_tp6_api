@@ -1,0 +1,67 @@
+<?php
+declare (strict_types=1);
+
+namespace app\service;
+
+use app\common\exception\AppException;
+use think\db\exception\DbException;
+use think\Paginator;
+
+class {%className%}
+{
+    /**
+     * 获取列表
+     * @return Paginator
+     * @throws DbException
+     */
+    public function list()
+    {
+        $model = new \app\model\{%className%}();
+        return $model->getList();
+    }
+
+    /**
+     * 添加数据
+     * @param $inputData
+     * @throws \ChengYi\exception\ModelException
+     */
+    public function add($inputData)
+    {
+        $model = new \app\model\{%className%}();
+        validate(\app\validate\{%className%}::class)->scene(\app\validate\{%className%}::SCENE_ADD)->check($inputData);
+        $model->addOneData($inputData);
+    }
+
+    /**
+     * 读取一条数据
+     * @param $id
+     * @return array|\think\Model
+     */
+    public function read($id)
+    {
+        $model = new \app\model\{%className%}();
+        return $model->read($id);
+    }
+
+    /**
+     * 更新数据
+     * @param $id
+     * @param $inputData
+     */
+    public function modify($id, $inputData)
+    {
+        $model = new \app\model\{%className%}();
+        validate(\app\validate\{%className%}::class)->scene(\app\validate\{%className%}::SCENE_EDIT)->check($inputData);
+        $model->modifyOneData(['id' => $id], $inputData);
+    }
+
+    /**
+     * 软删除-删除数据
+     * @param $id
+     */
+    public function del($id)
+    {
+        $model = new \app\model\{%className%}();
+        $model->deleteOne($id);
+    }
+}

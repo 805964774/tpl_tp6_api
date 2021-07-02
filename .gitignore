@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+*.log
+.env
+config/local
+vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/HTML/*
