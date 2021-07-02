@@ -3,8 +3,6 @@ namespace app;
 
 use app\common\constant\ErrorNums;
 use app\common\exception\AppException;
-use ChengYi\exception\ChengYiException;
-use ChengYi\exception\RateLimitException;
 use ChengYi\util\SnowFlake;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -15,8 +13,10 @@ use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\facade\App;
 use think\facade\Log;
+use think\helper\Str;
 use think\Response;
 use Throwable;
+use TypeError;
 
 /**
  * 应用异常处理类
@@ -33,6 +33,8 @@ class ExceptionHandle extends Handle
         ModelNotFoundException::class,
         DataNotFoundException::class,
         ValidateException::class,
+        TypeError::class,
+        AppException::class,
     ];
 
     /**
@@ -78,33 +80,34 @@ class ExceptionHandle extends Handle
      */
     public function render($request, Throwable $e): Response
     {
+        if ($e instanceof TypeError) {
+            $trace = $e->getTrace();
+            $funcName = $trace[0]['function'] ?? '';
+            if (Str::startsWith($funcName,"get")) {
+                $fileName = mb_substr($funcName, 3);
+                $responseData = ['code' => ErrorNums::PARAM_ILLEGAL, 'message' => Str::snake($fileName) . '类型错误'];
+                $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
+                return response($responseData, 200, [], 'json');
+            }
+        }
         // 参数验证错误
         if ($e instanceof ValidateException) {
-            $responseData = ['code' => ErrorNums::PARAM_ILLEGAL, 'msg' => $e->getError()];
+            $responseData = ['code' => ErrorNums::PARAM_ILLEGAL, 'message' => $e->getError()];
             $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
             return response($responseData, 200, [], 'json');
         }
 
         // 请求异常
         if ($e instanceof HttpException && $request->isAjax()) {
-            $responseData = ['code' => $e->getStatusCode(), 'msg' => $e->getMessage()];
+            $responseData = ['code' => $e->getStatusCode(), 'message' => $e->getMessage()];
             $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
             return response($responseData, $e->getStatusCode(), [], 'json');
         }
 
-        // 限流
-        if ($e instanceof RateLimitException) {
-            $responseData = ['code' => ErrorNums::TOO_MANY_REQUEST, 'msg' => $e->getMessage()];
-            $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
-            return response($responseData, 200, [], 'json');
-        }
-
-        if ($e instanceof AppException
-            || $e instanceof ChengYiException
-        ) {
-            $responseData = ['code' => $e->getCode(), 'msg' => $e->getMessage()];
+        if ($e instanceof AppException) {
+            $responseData = ['code' => $e->getCode(), 'message' => $e->getMessage()];
             if (App::isDebug()) {
-                $responseData['err_msg'] = $e->getMessage();
+                $responseData['errmsg'] = $e->getMessage();
                 $responseData['file'] = $e->getFile();
                 $responseData['line'] = $e->getLine();
                 $responseData['trace'] = $e->getTrace();
@@ -115,9 +118,9 @@ class ExceptionHandle extends Handle
 
         if ($e instanceof PDOException) {
             Log::error("数据库异常:" . $e->getMessage() . ',trace:' . $e->getTraceAsString());
-            $responseData = ['code' => ErrorNums::DB_ERROR, 'msg' => 'sys error'];
+            $responseData = ['code' => ErrorNums::DB_ERROR, 'message' => 'sys error'];
             if (App::isDebug()) {
-                $responseData['err_msg'] = $e->getMessage();
+                $responseData['errmsg'] = $e->getMessage();
                 $responseData['file'] = $e->getFile();
                 $responseData['line'] = $e->getLine();
                 $responseData['trace'] = $e->getTrace();
@@ -127,10 +130,10 @@ class ExceptionHandle extends Handle
         }
 
         // 其他错误交给系统处理
-        $responseData = ['code' => ErrorNums::SYS_ERROR, 'msg' => '系统异常'];
+        $responseData = ['code' => ErrorNums::SYS_ERROR, 'message' => $e->getMessage()];
         $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
         if (App::isDebug()) {
-            $responseData['err_msg'] = $e->getMessage();
+            $responseData['errmsg'] = $e->getMessage();
             $responseData['file'] = $e->getFile();
             $responseData['line'] = $e->getLine();
             $responseData['trace'] = $e->getTrace();
