@@ -2,6 +2,12 @@
     "name": "jinlulu/tp6_api",
     "description": "基于tp6做的api模板",
     "type": "project",
+    "keywords": [
+        "tpl_tp6",
+        "thinkphp",
+        "api"
+    ],
+    "homepage": "http://www.autoyun.cn",
     "license": "MIT",
     "authors": [
         {
