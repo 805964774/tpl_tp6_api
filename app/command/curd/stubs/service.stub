@@ -3,7 +3,6 @@ declare (strict_types=1);
 
 namespace app\service;
 
-use app\common\exception\AppException;
 use think\db\exception\DbException;
 use think\Paginator;
 
