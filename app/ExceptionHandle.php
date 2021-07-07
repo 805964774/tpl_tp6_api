@@ -4,6 +4,8 @@ namespace app;
 
 use app\common\constant\ErrorNums;
 use app\common\exception\AppException;
+use ChengYi\exception\ChengYiException;
+use ChengYi\exception\RateLimitException;
 use ChengYi\util\SnowFlake;
 use Exception;
 use think\db\exception\DataNotFoundException;
@@ -101,7 +103,14 @@ class ExceptionHandle extends Handle
             return response($responseData, $e->getStatusCode(), [], 'json');
         }
 
-        if ($e instanceof AppException) {
+        if ($e instanceof RateLimitException) {
+            $responseData = $this->getResponse($e, ErrorNums::TOO_MANY_REQUEST);
+            return response($responseData, 200, [], 'json');
+        }
+
+        if ($e instanceof AppException
+            || $e instanceof ChengYiException
+        ) {
             $responseData = $this->getResponse($e, $e->getCode());
             return response($responseData, 200, [], 'json');
         }
