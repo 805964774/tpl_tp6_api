@@ -39,6 +39,7 @@ class ExceptionHandle extends Handle
         ValidateException::class,
         TypeError::class,
         AppException::class,
+        RateLimitException::class,
     ];
 
     /**
