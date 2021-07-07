@@ -60,7 +60,7 @@ class ErrorNums
         return self::$_instance;
     }
 
-    public function getMessage($code): string {
+    public function getMessage(int $code): string {
         return $this->message[$code] ?? '未知错误';
     }
 }

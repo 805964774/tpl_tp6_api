@@ -7,7 +7,7 @@ namespace app\common\facade;
 use think\Facade;
 
 /**
- * Class LeakyBucket
+ * Class JsonWebToken
  * @package app\facade
  * @method static setData(array $data): string 保存登录信息
  * @method static getData(string $token, string $name = ''): ?string 获取保持的数据

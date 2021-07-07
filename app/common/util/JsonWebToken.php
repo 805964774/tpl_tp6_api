@@ -39,16 +39,12 @@ class JsonWebToken
      * @return string
      */
     /**
-     * @param $token
-     * @param $name
+     * @param string $token 密文
+     * @param string $name 密文的key
      * @return string|null
-     * @throws UnexpectedValueException     Provided JWT was invalid
-     * @throws SignatureInvalidException    Provided JWT was invalid because the signature verification failed
-     * @throws BeforeValidException         Provided JWT is trying to be used before it's eligible as defined by 'nbf'
-     * @throws BeforeValidException         Provided JWT is trying to be used before it's been created as defined by 'iat'
-     * @throws ExpiredException|AppException             Provided JWT has since expired, as defined by the 'exp' claim
+     * @throws \app\common\exception\AppException Provided JWT has since expired, as defined by the 'exp' claim
      */
-    public function getData($token, $name = ''): ?string {
+    public function getData(string $token, string $name = ''): ?string {
         try {
             $jwtConf = config('jwt');
             JWT::$leeway = 60; // $leeway in seconds

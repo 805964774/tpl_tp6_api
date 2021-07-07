@@ -10,7 +10,7 @@ class Index extends BaseController
      * hello
      * @return string
      */
-    public function index() {
+    public function index(): string {
         return 'hello';
     }
 }

@@ -16,6 +16,13 @@ use think\Response;
  */
 class RateLimit
 {
+    /**
+     * @param \think\Request $request
+     * @param \Closure $next
+     * @return \think\Response
+     * @throws \ChengYi\exception\ChengYiException
+     * @throws \ChengYi\exception\RateLimitException
+     */
     public function handle(Request $request, Closure $next): Response {
         $ip = get_real_ip();
         $controller = $request->controller();

@@ -1,9 +1,11 @@
 <?php
+
 namespace app;
 
 use app\common\constant\ErrorNums;
 use app\common\exception\AppException;
 use ChengYi\util\SnowFlake;
+use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\db\exception\PDOException;
@@ -41,11 +43,10 @@ class ExceptionHandle extends Handle
      * 记录异常信息（包括日志或者其它方式记录）
      *
      * @access public
-     * @param  Throwable $exception
+     * @param Throwable $exception
      * @return void
      */
-    public function report(Throwable $exception): void
-    {
+    public function report(Throwable $exception): void {
         if ($this->isIgnoreReport($exception)) {
             return;
         }
@@ -64,7 +65,7 @@ class ExceptionHandle extends Handle
 
         try {
             $this->app->log->record($log, 'error');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
         // 使用内置的方式记录异常日志
         // parent::report($exception);
@@ -78,66 +79,65 @@ class ExceptionHandle extends Handle
      * @param Throwable $e
      * @return Response
      */
-    public function render($request, Throwable $e): Response
-    {
+    public function render($request, Throwable $e): Response {
         if ($e instanceof TypeError) {
             $trace = $e->getTrace();
             $funcName = $trace[0]['function'] ?? '';
-            if (Str::startsWith($funcName,"get")) {
+            if (Str::startsWith($funcName, "get")) {
                 $fileName = mb_substr($funcName, 3);
-                $responseData = ['code' => ErrorNums::PARAM_ILLEGAL, 'message' => Str::snake($fileName) . '类型错误'];
-                $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
+                $responseData = $this->getResponse($e, ErrorNums::PARAM_ILLEGAL, Str::snake($fileName) . '类型错误');
                 return response($responseData, 200, [], 'json');
             }
         }
         // 参数验证错误
         if ($e instanceof ValidateException) {
-            $responseData = ['code' => ErrorNums::PARAM_ILLEGAL, 'message' => $e->getError()];
-            $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
+            $responseData = $this->getResponse($e, ErrorNums::PARAM_ILLEGAL, $e->getError());
             return response($responseData, 200, [], 'json');
         }
 
         // 请求异常
         if ($e instanceof HttpException && $request->isAjax()) {
-            $responseData = ['code' => $e->getStatusCode(), 'message' => $e->getMessage()];
-            $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
+            $responseData = $this->getResponse($e, $e->getStatusCode());
             return response($responseData, $e->getStatusCode(), [], 'json');
         }
 
         if ($e instanceof AppException) {
-            $responseData = ['code' => $e->getCode(), 'message' => $e->getMessage()];
-            if (App::isDebug()) {
-                $responseData['errmsg'] = $e->getMessage();
-                $responseData['file'] = $e->getFile();
-                $responseData['line'] = $e->getLine();
-                $responseData['trace'] = $e->getTrace();
-            }
-            $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
+            $responseData = $this->getResponse($e, $e->getCode());
             return response($responseData, 200, [], 'json');
         }
 
         if ($e instanceof PDOException) {
             Log::error("数据库异常:" . $e->getMessage() . ',trace:' . $e->getTraceAsString());
-            $responseData = ['code' => ErrorNums::DB_ERROR, 'message' => 'sys error'];
-            if (App::isDebug()) {
-                $responseData['errmsg'] = $e->getMessage();
-                $responseData['file'] = $e->getFile();
-                $responseData['line'] = $e->getLine();
-                $responseData['trace'] = $e->getTrace();
-            }
-            $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
+            $responseData = $this->getResponse($e, ErrorNums::DB_ERROR, 'sys error');
             return response($responseData, 200, [], 'json');
         }
 
         // 其他错误交给系统处理
-        $responseData = ['code' => ErrorNums::SYS_ERROR, 'message' => $e->getMessage()];
+        $responseData = $this->getResponse($e, ErrorNums::SYS_ERROR);
+        return response($responseData, 200, [], 'json');
+    }
+
+    /**
+     * 获取响应信息
+     * @param \Throwable $e
+     * @param int $code
+     * @param string $message
+     * @return array
+     */
+    private function getResponse(Throwable $e, int $code, string $message = ''): array {
+        if (empty($message)) {
+            $message = $e->getMessage();
+        }
+        $responseData = [];
+        $responseData['code'] = $code;
+        $responseData['message'] = $message;
         $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
         if (App::isDebug()) {
-            $responseData['errmsg'] = $e->getMessage();
+            $responseData['err_msg'] = $e->getMessage();
             $responseData['file'] = $e->getFile();
             $responseData['line'] = $e->getLine();
             $responseData['trace'] = $e->getTrace();
         }
-        return response($responseData, 200, [], 'json');
+        return $responseData;
     }
 }

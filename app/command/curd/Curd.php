@@ -23,7 +23,10 @@ class Curd extends Command
             ->setDescription('the curd command');
     }
 
-    protected function execute(Input $input, Output $output) {
+    /**
+     * @throws \app\common\exception\AppException
+     */
+    protected function execute(Input $input, Output $output): bool {
         $name = ucfirst(trim($input->getOption('name')));
         // 1、build controller
         $this->buildController($name, $output);

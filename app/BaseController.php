@@ -97,32 +97,34 @@ abstract class BaseController
      * 输出成功
      * @param array $data
      * @param string $msg
+     * @param array $header
      * @return Response
      */
-    protected function outputSuccess($data = [], $msg = 'ok'): Response {
-        return $this->apiOutput($data, $msg, 0);
+    protected function outputSuccess(array $data = [], string $msg = 'ok', array $header = []): Response {
+        return $this->apiOutput($data, $msg, 0, $header);
     }
 
     /**
      * 输出错误
-     * @param $code
-     * @param $msg
+     * @param int $code
+     * @param string $msg
      * @param array $data
+     * @param array $header
      * @return Response
      */
-    protected function outputFail($code, $msg, $data = []): Response {
-        return $this->apiOutput($data, $msg, $code);
+    protected function outputFail(int $code, string $msg, array $data = [], array $header = []): Response {
+        return $this->apiOutput($data, $msg, $code, $header);
     }
 
     /**
      * api输出
-     * @param $data
-     * @param $msg
-     * @param $code
+     * @param array $data
+     * @param string $msg
+     * @param int $code
      * @param array $header
      * @return Response
      */
-    private function apiOutput($data, $msg, $code, $header = []): Response {
+    private function apiOutput(array $data, string $msg, int $code, array $header = []): Response {
         $rsp['code'] = $code;
         $rsp['msg'] = $msg;
         $rsp['trace_id'] = SnowFlake::getInstance()->getCurrentId();

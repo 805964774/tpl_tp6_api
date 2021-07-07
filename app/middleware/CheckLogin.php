@@ -3,6 +3,10 @@ declare (strict_types = 1);
 
 namespace app\middleware;
 
+use Closure;
+use think\Request;
+use think\Response;
+
 /**
  * 检测登录中间件
  * Class CheckLogin
@@ -17,8 +21,7 @@ class CheckLogin
      * @param \Closure       $next
      * @return Response
      */
-    public function handle($request, \Closure $next)
-    {
-        //
+    public function handle(Request $request, Closure $next): Response {
+        return $next($request);
     }
 }

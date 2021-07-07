@@ -13,7 +13,7 @@ class UserRegister
     /**
      * 事件监听处理
      *
-     * @return mixed
+     * @return void
      */
     public function handle($event)
     {

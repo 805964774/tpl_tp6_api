@@ -18,11 +18,11 @@ function get_deploy_path(): string {
 
 /**
  * 获取缓存失效时间
- * @param $initValue
+ * @param int $initValue
  * @param int $randomMax
  * @return int
  */
-function get_cache_expire($initValue, $randomMax = 300): int {
+function get_cache_expire(int $initValue, int $randomMax = 300): int {
     if ($randomMax <= 10) {
         $randomMax = 20;
     }
@@ -30,12 +30,12 @@ function get_cache_expire($initValue, $randomMax = 300): int {
 }
 
 //过滤xss
-function remove_xss($val): string {
+function remove_xss(string $val): string {
     return RemoveXss::xss($val);
 }
 
 //过滤html
-function remove_html($val): string {
+function remove_html(string $val): string {
     return RemoveXss::html($val);
 }
 
