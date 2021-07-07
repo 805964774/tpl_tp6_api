@@ -40,6 +40,7 @@ class ExceptionHandle extends Handle
         TypeError::class,
         AppException::class,
         RateLimitException::class,
+        ChengYiException::class,
     ];
 
     /**
@@ -119,7 +120,6 @@ class ExceptionHandle extends Handle
                 break;
             // 数据库异常
             case $e instanceof PDOException:
-                Log::error("数据库异常:" . $e->getMessage() . ',trace:' . $e->getTraceAsString());
                 $responseData = $this->getResponse($e, ErrorNums::DB_ERROR, 'sys error');
                 return response($responseData, 200, [], 'json');
                 break;
