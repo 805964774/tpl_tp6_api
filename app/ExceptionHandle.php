@@ -82,45 +82,47 @@ class ExceptionHandle extends Handle
      * @return Response
      */
     public function render($request, Throwable $e): Response {
-        if ($e instanceof TypeError) {
-            $trace = $e->getTrace();
-            $funcName = $trace[0]['function'] ?? '';
-            if (Str::startsWith($funcName, "get")) {
-                $fileName = mb_substr($funcName, 3);
-                $responseData = $this->getResponse($e, ErrorNums::PARAM_ILLEGAL, Str::snake($fileName) . '类型错误');
+        switch ($e) {
+            // 参数类型错误
+            case $e instanceof TypeError:
+                $trace = $e->getTrace();
+                $funcName = $trace[0]['function'] ?? '';
+                if (Str::startsWith($funcName, "get")) {
+                    $fileName = mb_substr($funcName, 3);
+                    $responseData = $this->getResponse($e, ErrorNums::PARAM_ILLEGAL, Str::snake($fileName) . '类型错误');
+                    return response($responseData, 200, [], 'json');
+                }
+                break;
+            // 验证异常
+            case $e instanceof ValidateException:
+                $responseData = $this->getResponse($e, ErrorNums::PARAM_ILLEGAL, $e->getError());
                 return response($responseData, 200, [], 'json');
-            }
+                break;
+            // http 异常
+            case $e instanceof HttpException:
+                if ($request->isAjax()) {
+                    $responseData = $this->getResponse($e, $e->getStatusCode());
+                    return response($responseData, $e->getStatusCode(), [], 'json');
+                }
+                break;
+            // 限流
+            case $e instanceof RateLimitException:
+                $responseData = $this->getResponse($e, ErrorNums::TOO_MANY_REQUEST);
+                return response($responseData, 200, [], 'json');
+                break;
+            // 项目异常和cheng yi包异常
+            case $e instanceof AppException:
+            case $e instanceof ChengYiException:
+                $responseData = $this->getResponse($e, $e->getCode());
+                return response($responseData, 200, [], 'json');
+                break;
+            // 数据库异常
+            case $e instanceof PDOException:
+                Log::error("数据库异常:" . $e->getMessage() . ',trace:' . $e->getTraceAsString());
+                $responseData = $this->getResponse($e, ErrorNums::DB_ERROR, 'sys error');
+                return response($responseData, 200, [], 'json');
+                break;
         }
-        // 参数验证错误
-        if ($e instanceof ValidateException) {
-            $responseData = $this->getResponse($e, ErrorNums::PARAM_ILLEGAL, $e->getError());
-            return response($responseData, 200, [], 'json');
-        }
-
-        // 请求异常
-        if ($e instanceof HttpException && $request->isAjax()) {
-            $responseData = $this->getResponse($e, $e->getStatusCode());
-            return response($responseData, $e->getStatusCode(), [], 'json');
-        }
-
-        if ($e instanceof RateLimitException) {
-            $responseData = $this->getResponse($e, ErrorNums::TOO_MANY_REQUEST);
-            return response($responseData, 200, [], 'json');
-        }
-
-        if ($e instanceof AppException
-            || $e instanceof ChengYiException
-        ) {
-            $responseData = $this->getResponse($e, $e->getCode());
-            return response($responseData, 200, [], 'json');
-        }
-
-        if ($e instanceof PDOException) {
-            Log::error("数据库异常:" . $e->getMessage() . ',trace:' . $e->getTraceAsString());
-            $responseData = $this->getResponse($e, ErrorNums::DB_ERROR, 'sys error');
-            return response($responseData, 200, [], 'json');
-        }
-
         // 其他错误交给系统处理
         $responseData = $this->getResponse($e, ErrorNums::SYS_ERROR);
         return response($responseData, 200, [], 'json');
