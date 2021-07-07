@@ -93,7 +93,7 @@ class Curd extends Command
      */
     private function buildFile($classname, $pathname, $type, $output) {
         if (is_file($pathname)) {
-            throw new AppException(ErrorNums::PARAM_ILLEGAL, $classname . 'already exists!');
+            throw new AppException(ErrorNums::PARAM_ILLEGAL, $classname . ' already exists!');
         }
         if (!is_dir(dirname($pathname))) {
             mkdir(dirname($pathname), 0755, true);
