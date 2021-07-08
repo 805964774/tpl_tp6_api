@@ -15,7 +15,7 @@ class HttpEnd
      * @param Response $event
      */
     public function handle(Response $event) {
-        if ($event instanceof Json) {
+        if ($event instanceof Json || $event->getCode() != 200) {
             $header = $event->getHeader();
             $content = $event->getContent();
             Log::response(json_encode(['header' => $header, 'content' => $content]));
