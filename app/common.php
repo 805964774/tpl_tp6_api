@@ -30,7 +30,7 @@ function get_cache_expire(int $initValue, int $randomMax = 300): int {
 }
 
 //过滤xss
-function remove_xss(?string $val): string {
+function remove_xss(?string $val): ?string {
     if (empty($val)) {
         return $val;
     }
@@ -38,7 +38,7 @@ function remove_xss(?string $val): string {
 }
 
 //过滤html
-function remove_html(?string $val): string {
+function remove_html(?string $val): ?string {
     if (empty($val)) {
         return $val;
     }
