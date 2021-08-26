@@ -19,7 +19,7 @@ class HttpEnd
     public function handle(Response $event) {
         $header = $event->getHeader();
         if (ob_get_length() > self::MAX_CONTENT_LENGTH) {
-            $content = substr($event->getContent(),0, self::MAX_CONTENT_LENGTH);
+            $content = mb_substr($event->getContent(),0, self::MAX_CONTENT_LENGTH);
         } else {
             $content = $event->getContent();
         }
