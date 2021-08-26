@@ -5,20 +5,24 @@ namespace app\listener;
 
 use think\facade\Log;
 use think\Response;
-use think\response\Json;
 
 class HttpEnd
 {
+
+    const MAX_CONTENT_LENGTH = 1024;
+
     /**
      * 事件监听处理
      *
      * @param Response $event
      */
     public function handle(Response $event) {
-        if ($event instanceof Json || $event->getCode() != 200) {
-            $header = $event->getHeader();
+        $header = $event->getHeader();
+        if (ob_get_length() > self::MAX_CONTENT_LENGTH) {
+            $content = substr($event->getContent(),0, self::MAX_CONTENT_LENGTH);
+        } else {
             $content = $event->getContent();
-            Log::response(json_encode(['header' => $header, 'content' => $content]));
         }
+        Log::response(json_encode(['header' => $header, 'content' => $content]));
     }
 }
