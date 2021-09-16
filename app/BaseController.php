@@ -100,7 +100,7 @@ abstract class BaseController
      * @param array $header
      * @return Response
      */
-    protected function outputSuccess(array $data = [], string $msg = 'ok', array $header = []): Response {
+    protected function outputSuccess($data = [], string $msg = 'ok', array $header = []): Response {
         return $this->apiOutput($data, $msg, 0, $header);
     }
 
@@ -124,7 +124,7 @@ abstract class BaseController
      * @param array $header
      * @return Response
      */
-    private function apiOutput(array $data, string $msg, int $code, array $header = []): Response {
+    private function apiOutput($data, string $msg, int $code, array $header = []): Response {
         $rsp['code'] = $code;
         $rsp['msg'] = $msg;
         $rsp['trace_id'] = SnowFlake::getInstance()->getCurrentId();

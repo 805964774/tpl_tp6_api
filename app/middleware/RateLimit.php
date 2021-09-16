@@ -6,6 +6,7 @@ namespace app\middleware;
 
 use ChengYi\util\LeakyBucket;
 use Closure;
+use think\facade\Log;
 use think\Request;
 use think\Response;
 
@@ -28,7 +29,8 @@ class RateLimit
         $controller = $request->controller();
         $action = $request->action();
         $param = $request->get('s');
-        $key = md5($ip . $controller . $action . $param);
+        $url = $request->baseUrl();
+        $key = md5($url . $ip . $controller . $action . $param);
         LeakyBucket::getInstance()->rateLimit($key);
         return $next($request);
     }
