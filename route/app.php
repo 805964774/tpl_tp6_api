@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-# miss路由
+# hello
 Route::get('/', 'Index/index');
+
+# miss路由
 Route::miss('Error/_404', '*');
