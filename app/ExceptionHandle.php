@@ -97,6 +97,10 @@ class ExceptionHandle extends Handle
             // 参数类型错误
             case $e instanceof TypeError:
                 $trace = $e->getTrace();
+                $parentClass = $trace[1]['class'] ?? '';
+                if ($parentClass != 'ChengYi\\abstracts\\PoPo') {
+                    break;
+                }
                 $funcName = $trace[0]['function'] ?? '';
                 if (Str::startsWith($funcName, "get")) {
                     $fileName = mb_substr($funcName, 3);
