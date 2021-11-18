@@ -10,17 +10,27 @@ use think\facade\Log;
 
 class HttpRun
 {
+    const MAX_CONTENT_LENGTH = 1024;
+
     /**
      * 事件监听处理
      *
      */
     public function handle() {
         $header = App::getInstance()->request->header();
-        $input = App::getInstance()->request->param();
+        $input = App::getInstance()->request->param('', '', null);
+        if (is_array($input)) {
+            $paramStr = json_encode($input);
+        } else {
+            $paramStr = $input;
+        }
+        if ($paramStr > self::MAX_CONTENT_LENGTH) {
+            $paramStr = mb_substr($paramStr, 0, self::MAX_CONTENT_LENGTH);
+        }
         $ip = get_real_ip();
         $url = App::getInstance()->request->url();
         // 生成trace_id
         SnowFlake::getInstance()->nextId();
-        Log::request(json_encode(['url' => $url,'header' => $header, 'input' => $input, 'ip' => $ip]));
+        Log::request(json_encode(['url' => $url, 'header' => $header, 'input' => $paramStr, 'ip' => $ip]));
     }
 }
