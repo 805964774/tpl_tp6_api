@@ -20,17 +20,15 @@ class HttpRun
         $header = App::getInstance()->request->header();
         $input = App::getInstance()->request->param('', '', null);
         if (is_array($input)) {
-            $paramStr = json_encode($input);
-        } else {
-            $paramStr = $input;
+            $input = json_encode($input);
         }
-        if ($paramStr > self::MAX_CONTENT_LENGTH) {
-            $paramStr = mb_substr($paramStr, 0, self::MAX_CONTENT_LENGTH);
+        if ($input > self::MAX_CONTENT_LENGTH) {
+            $input = mb_substr($input, 0, self::MAX_CONTENT_LENGTH);
         }
         $ip = get_real_ip();
         $url = App::getInstance()->request->url();
         // 生成trace_id
         SnowFlake::getInstance()->nextId();
-        Log::request(json_encode(['url' => $url, 'header' => $header, 'input' => $paramStr, 'ip' => $ip]));
+        Log::request(json_encode(['url' => $url, 'header' => $header, 'input' => $input, 'ip' => $ip]));
     }
 }
