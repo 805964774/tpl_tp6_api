@@ -22,7 +22,7 @@
         "firebase/php-jwt": "^5.2",
         "ext-json": "*",
         "ezyang/htmlpurifier": "^4.13",
-        "chengyi/tp6": "~1.0.0"
+        "chengyi/tp6": "~2.0.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2"
