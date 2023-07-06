@@ -4,7 +4,6 @@ declare (strict_types=1);
 namespace app\listener;
 
 
-use ChengYi\util\SnowFlake;
 use think\facade\App;
 use think\facade\Log;
 
@@ -27,8 +26,6 @@ class HttpRun
         }
         $ip = get_real_ip();
         $url = App::getInstance()->request->url();
-        // 生成trace_id
-        SnowFlake::getInstance()->nextId();
         Log::request(json_encode(['url' => $url, 'header' => $header, 'input' => $input, 'ip' => $ip]));
     }
 }

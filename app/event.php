@@ -1,5 +1,6 @@
 <?php
 // 事件定义文件
+use app\listener\AppInit;
 use app\listener\HttpEnd;
 use app\listener\HttpRun;
 
@@ -8,7 +9,9 @@ return [
     ],
 
     'listen'    => [
-        'AppInit'  => [],
+        'AppInit'  => [
+            AppInit::class,
+        ],
         'HttpRun'  => [
             HttpRun::class
         ],
@@ -19,6 +22,5 @@ return [
         'LogWrite' => [],
     ],
 
-    'subscribe' => [
-    ],
+    'subscribe'    =>    [],
 ];

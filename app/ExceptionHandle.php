@@ -4,6 +4,7 @@ namespace app;
 
 use app\common\constant\ErrorNums;
 use app\common\exception\AppException;
+use ChengYi\abstracts\PoPo;
 use ChengYi\exception\ChengYiException;
 use ChengYi\exception\RateLimitException;
 use ChengYi\util\SnowFlake;
@@ -88,21 +89,21 @@ class ExceptionHandle extends Handle
      * @return Response
      */
     public function render($request, Throwable $e): Response {
-        if (!$request->isJson()) {
-            return parent::render($request, $e);
-        }
+//        if (!$request->isJson()) {
+//            return parent::render($request, $e);
+//        }
         $respCode = 200;
         $header = [];
         switch ($e) {
             // 参数类型错误
             case $e instanceof TypeError:
                 $trace = $e->getTrace();
-                $parentClass = $trace[1]['class'] ?? '';
-                if ($parentClass != 'ChengYi\\abstracts\\PoPo') {
+                $parentClass = $trace[2]['class'] ?? '';
+                if ($parentClass != PoPo::class) {
                     break;
                 }
                 $funcName = $trace[0]['function'] ?? '';
-                if (Str::startsWith($funcName, "get")) {
+                if (Str::startsWith($funcName, "set")) {
                     $fileName = mb_substr($funcName, 3);
                     $responseData = $this->getResponseContent($e, ErrorNums::PARAM_ILLEGAL, Str::snake($fileName) . '类型错误');
                 }
@@ -148,7 +149,7 @@ class ExceptionHandle extends Handle
         }
         $responseData = [];
         $responseData['code'] = $code;
-        $responseData['message'] = $message;
+        $responseData['msg'] = $message;
         $responseData['trace_id'] = SnowFlake::getInstance()->getCurrentId();
         if (App::isDebug()) {
             $responseData['err_msg'] = $e->getMessage();

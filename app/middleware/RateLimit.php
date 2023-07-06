@@ -6,7 +6,6 @@ namespace app\middleware;
 
 use ChengYi\util\LeakyBucket;
 use Closure;
-use think\facade\Log;
 use think\Request;
 use think\Response;
 
