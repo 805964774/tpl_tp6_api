@@ -1,3 +1,6 @@
+# 安装
+composer create-project jinlulu/tp6_api
+
 # .env
 ```
 CONFIG_SCENE = [local|dev|prod]
