@@ -61,7 +61,8 @@ protected $editAllowField;
 以下是提交地址接口的popo对象的使用
 <details>
     <summary>点击查看</summary>
-```php
+
+<pre>
 // Controller中
 public function submitAddress(SubmitAddressParam $param): Response {
     // 输出参数
@@ -164,6 +165,5 @@ class SubmitAddressParam extends PoPo
         $this->mobile = $mobile;
     }
 }
-
-```
+</pre>pre>
 </details>
