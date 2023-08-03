@@ -59,6 +59,8 @@ protected $editAllowField;
 - 也可以通过`array_2_popo_obj`将数组转换为poPo对象，或者将对象转为数组`popo_obj_2_obj`
 - popo还可以跟验证器绑定，自动执行验证，只需要配置继承PoPo的子类中设置$validates，也可以改为手动验证，修改$autoValidate即可
 以下是提交地址接口的popo对象的使用
+<details>
+    <summary>点击查看</summary>
 ```php
 // Controller中
 public function submitAddress(SubmitAddressParam $param): Response {
@@ -164,4 +166,4 @@ class SubmitAddressParam extends PoPo
 }
 
 ```
-
+</details>
